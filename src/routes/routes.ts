@@ -1,4 +1,5 @@
 import { Express } from 'express';
+import { test } from '../services/api/graphQL.js';
 
 export function loadRoutes(app: Express) {
   app.get('/', (req, res) => {
@@ -19,5 +20,17 @@ export function loadRoutes(app: Express) {
     res.send('Got a DELETE request at /user');
   });
 
+  app.get('/data', async (req, res) => {
+    try {
+      const result = await test();
+      if (result.success) {
+        res.status(200).json(result.data);
+      } else {
+        res.status(500).json({ error: result.errors });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
   // ...add other routes here...
 }

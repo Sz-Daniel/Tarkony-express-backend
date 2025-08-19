@@ -1,5 +1,21 @@
 import axios from 'axios';
 
+export function test() {
+  return fetchGraphQL(`query{
+     itemCategories {
+      id
+      name
+      normalizedName
+      children {
+        normalizedName
+      }
+      parent {
+        normalizedName
+      }
+    }
+  }`);
+}
+
 export async function fetchGraphQL(
   query: string
 ): Promise<{ success: boolean; errors: any; data: any; status: number }> {
