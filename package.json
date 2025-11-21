@@ -1,16 +1,22 @@
 {
   "name": "tarkony-express-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --watch",
+    "dev": "tsx --watch --env-file .env src/index.ts",
+    "start": "node --env-file .env dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "axios": "^1.13.2",
+    "axios-cache-interceptor": "^1.8.3",
+    "express": "^5.1.0",
+    "mongodb": "^7.0.0",
+    "node-cron": "^4.2.1"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

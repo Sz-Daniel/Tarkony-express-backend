@@ -1,12 +1,12 @@
 import express from "express";
+import { startCronJobs } from "./cron";
+
 const app = express();
-const port = "3000";
+app.use(express.json());
+const port = process.env.PORT ?? "9001";
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-  console.log("Response sent");
-});
-
+require("./routes")(app);
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Tarkony Express Backend is running at http://localhost:${port}`);
+  //startCronJobs();
 });
