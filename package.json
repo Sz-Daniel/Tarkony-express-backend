@@ -4,8 +4,8 @@
   "main": "./index.js",
   "scripts": {
     "build": "tsc --watch",
-    "dev": "tsx --watch --env-file .env src/index.ts",
-    "start": "node --env-file .env dist/index.js"
+    "dev": "tsx --watch --env-file .env.example src/index.ts",
+    "start": "node --env-file .env.example dist/src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,12 +14,15 @@
   "dependencies": {
     "axios": "^1.13.2",
     "axios-cache-interceptor": "^1.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongodb": "^7.0.0",
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
-    "@tsconfig/node22": "^22.0.2",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/node": "^24.9.2",
     "tsx": "^4.20.6",
