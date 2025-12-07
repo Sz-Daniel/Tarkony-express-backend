@@ -88,8 +88,8 @@ export async function getItemsDataAll() {
 export async function mergeData() {
   const itemsData = await getItemsDataAll();
   const itemsPrice = await getItemsPriceAll();
-  const merge = itemsData.map((item) => {
-    const found = itemsPrice.find((findItem) => {
+  const merge = itemsData.map((item: any) => {
+    const found = itemsPrice.find((findItem: any) => {
       return item.id === findItem.id;
     });
     return { ...item, ...found };

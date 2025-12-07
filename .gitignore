@@ -8,3 +8,9 @@ dist/
 .env
 
 collection.txt
+
+codegen/
+codegen.ts
+
+MyRequest.http
+graphql.schema.json
