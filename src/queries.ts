@@ -4,24 +4,12 @@ export type QueryType = {
   query: string;
 };
 
-export const APIStatus = `
-  {
-  status {
-    currentStatuses {
-      message
-      name
-      status
-      statusCode
-    }
-  }
-}`;
-
 export const categoriesQuery = {
-  name: "categoriesQuery",
-  key: "itemCategories",
+  name: 'categoriesQuery',
+  key: 'itemCategories',
   query: `
-  query{
-     itemCategories {
+    query {
+    itemCategories {
       id
       name
       normalizedName
@@ -35,262 +23,216 @@ export const categoriesQuery = {
   }`,
 };
 
-export const itemPriceQuery = {
-  query: `
-    {
-  items(limit: 2) {
-    id
-    sellFor {
-      priceRUB
-      vendor {
-        name
-      }
-    }
-    buyFor {
-      priceRUB
-      vendor {
-        name
-      }
-    }
-  }
-}
-`,
-};
-
 export const itemDataQuery = {
   query: `
-  {
-  items(limit: 2) {
-    id
-    name
-    shortName
-    categories {
+  query {
+    items {
+      id
       name
-    }
-
-    lastLowPrice
-    low24hPrice
-    avg24hPrice
-    high24hPrice
-    changeLast48hPercent
-    changeLast48h
-    lastOfferCount
-
-    width
-    weight
-    hasGrid
-
-    inspectImageLink
-    backgroundColor
-    gridImageLink
-
-    description
-    wikiLink
-
-    height
-    velocity
-    recoilModifier
-    loudness
-    accuracyModifier
-    ergonomicsModifier
-
-    updated
-
-    sellFor {
-      currency
-      price
-      priceRUB
-      vendor {
+      categories {
         name
-        ... on FleaMarket {
-          foundInRaidRequired
+        normalizedName
+      }
+      gridImageLink
+      changeLast48h
+      changeLast48hPercent
+      normalizedName
+      wikiLink
+      sellFor {
+        currency
+        price
+        priceRUB
+        vendor {
+          name
+          ... on FleaMarket {
+            foundInRaidRequired
+          }
         }
       }
-    }
-
-    buyFor {
-      currency
-      price
-      priceRUB
-      vendor {
-        ... on TraderOffer {
-          minTraderLevel
-          buyLimit
-          trader {
-            name
-            imageLink
-            levels {
-              level
-              requiredPlayerLevel
-              requiredReputation
-              requiredCommerce
+      buyFor {
+        currency
+        price
+        priceRUB
+        vendor {
+          name
+          ... on TraderOffer {
+            minTraderLevel
+            buyLimit
+            trader {
+              name
+              imageLink
+              levels {
+                level
+                requiredPlayerLevel
+                requiredReputation
+                requiredCommerce
+              }
+            }
+            taskUnlock {
+              name
+              minPlayerLevel
             }
           }
-          taskUnlock {
-            name
-            minPlayerLevel
+        }
+      }
+      historicalPrices {
+        offerCount
+        offerCountMin
+        price
+        priceMin
+        timestamp
+      }
+      bartersUsing {
+        id
+        level
+        buyLimit
+        taskUnlock {
+          name
+          minPlayerLevel
+        }
+        trader {
+          name
+          imageLink
+          levels {
+            level
+            requiredPlayerLevel
+            requiredReputation
+            requiredCommerce
           }
         }
-      }
-    }
-
-    bartersUsing {
-      id
-      level
-      buyLimit
-      taskUnlock {
-        name
-        minPlayerLevel
-      }
-      trader {
-        name
-        imageLink
-        levels {
-          level
-          requiredPlayerLevel
-          requiredReputation
-          requiredCommerce
-        }
-      }
-      rewardItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-      requiredItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-    }
-
-    bartersFor {
-      id
-      level
-      buyLimit
-      taskUnlock {
-        name
-        minPlayerLevel
-      }
-      trader {
-        name
-        imageLink
-        levels {
-          level
-          requiredPlayerLevel
-          requiredReputation
-          requiredCommerce
-        }
-      }
-      rewardItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-      requiredItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-    }
-
-    craftsUsing {
-      id
-      duration
-      level
-      station {
-        name
-        imageLink
-      }
-      taskUnlock {
-        name
-        minPlayerLevel
-      }
-      rewardItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-      requiredItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-    }
-
-    craftsFor {
-      id
-      duration
-      level
-      station {
-        name
-        imageLink
-      }
-      taskUnlock {
-        name
-        minPlayerLevel
-      }
-      rewardItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-      requiredItems {
-        count
-        item {
-          id
-          gridImageLink
-          name
-        }
-      }
-    }
-
-    usedInTasks {
-      name
-      objectives {
-        ... on TaskObjectiveItem {
-          description
+        rewardItems {
           count
           item {
+            id
+            gridImageLink
             name
           }
         }
-      }
-    }
-    receivedFromTasks {
-      name
-      finishRewards {
-        items {
+        requiredItems {
           count
           item {
+            id
+            gridImageLink
             name
           }
         }
       }
+      bartersFor {
+        id
+        level
+        buyLimit
+        taskUnlock {
+          name
+          minPlayerLevel
+        }
+        trader {
+          name
+          imageLink
+          levels {
+            level
+            requiredPlayerLevel
+            requiredReputation
+            requiredCommerce
+          }
+        }
+        rewardItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+        requiredItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+      }
+      craftsUsing {
+        id
+        duration
+        level
+        station {
+          name
+          imageLink
+        }
+        taskUnlock {
+          name
+          minPlayerLevel
+        }
+        rewardItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+        requiredItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+      }
+      craftsFor {
+        id
+        duration
+        level
+        station {
+          name
+          imageLink
+        }
+        taskUnlock {
+          name
+          minPlayerLevel
+        }
+        rewardItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+        requiredItems {
+          count
+          item {
+            id
+            gridImageLink
+            name
+          }
+        }
+      }
+      usedInTasks {
+        name
+        objectives {
+          ... on TaskObjectiveItem {
+            description
+            count
+            item {
+              name
+            }
+          }
+        }
+      }
+      receivedFromTasks {
+        name
+        finishRewards {
+          items {
+            count
+            item {
+              name
+            }
+          }
+        }
+      }
     }
-  }
-}
-
-`,
+  }`,
 };

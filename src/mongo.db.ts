@@ -1,5 +1,3 @@
-import { fetchItemsData, fetchItemsPrice } from './fetch';
-import { itemDataQuery } from './queries';
 import config from './config.js';
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
@@ -17,13 +15,13 @@ export const testConnection = async () => {
     await client.connect();
     await client.db('tarkony_express').command({ ping: 1 });
     console.log(
-      'Pinged your deployment. You successfully connected to MongoDB!'
+      'Pinged your deployment. You successfully connected to MongoDB!',
     );
 
     const collections = await client.db('tarkony_express').listCollections();
     console.log('Collections in tarkony_express database:');
     await collections.forEach((collection: any) =>
-      console.log(` - ${collection.name}`)
+      console.log(` - ${collection.name}`),
     );
   } catch (error) {
     throw error;
@@ -39,11 +37,51 @@ async function getCollection(collectionName: string) {
     throw error;
   }
 }
-export async function clearCollection(collectionName: string) {
+
+export async function getMore(collectionName: string, sort = {} as object) {
   try {
     const collection = await getCollection(collectionName);
-    const result = await collection.deleteMany({});
-    console.log(result);
+    const result = await collection.find({}).sort(sort).toArray();
+    return result;
+  } catch (error) {
+    console.error(`Error in getMore for collection ${collectionName}:`, error);
+    throw error;
+  }
+}
+
+export async function mongoCategories() {
+  try {
+    const collection = await getCollection('categories');
+    const result = await collection.find({}).sort().toArray();
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+export async function mongoItems() {
+  try {
+    await getCollection('items');
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function mongoUpdateItems(newData: Array<object>) {
+  try {
+    const collection = await getCollection('items');
+    const result = await collection.updateMany({ $set: newData });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function mongoUpdateCategories(newData: Array<object>) {
+  try {
+    const collection = await getCollection('categories');
+    const result = await collection.updateMany({ $set: newData });
     return result;
   } catch (error) {
     console.log(error);
@@ -64,6 +102,7 @@ lekérni adat , árak
 
 */
 
+/* REWORK
 export async function getCategories() {
   return await getMore('categories');
 }
@@ -118,3 +157,4 @@ export async function updateData(newData: Array<object>) {
     console.log(error);
   }
 }
+*/

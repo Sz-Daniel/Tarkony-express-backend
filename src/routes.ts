@@ -1,6 +1,6 @@
 import type express from 'express';
-import { clearCollection, mergeData, testConnection } from './mongo.db';
-import { fetchAPIStatus, fetchCategories } from './fetch';
+import { fetchCategories } from './fetch';
+import { mongoCategories } from './mongo.db';
 
 /**
  * /DBHealth
@@ -9,7 +9,94 @@ import { fetchAPIStatus, fetchCategories } from './fetch';
  * /items
  * /categories
  */
-export default function loadRoutes(app: express.Express) {
+export function frontendRoutes(app: express.Express) {}
+export function mongoRoutes(app: express.Express) {
+  app.get('/mongo/get/Categories', async (_req, res) => {
+    try {
+      const result = await mongoCategories();
+      if (!result || result.length === 0) {
+        return res.status(204).send([]);
+      }
+      res.status(200).send(result.json());
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+
+  app.get('/mongo/update/Categories', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(200).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+}
+
+export function originRoutes(app: express.Express) {
+  app.get('/origin/Categories', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(204).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+}
+export function loadRoutes(app: express.Express) {
+  app.get('/origin/Categories', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(204).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+
+  app.get('/mongo/update/Categories', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(200).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+}
+
+/*
+ 
   app.get('/DBHealth', async (_req, res) => {
     try {
       const result = await testConnection();
@@ -18,17 +105,6 @@ export default function loadRoutes(app: express.Express) {
     } catch (error) {
       console.log('\nDatabase connection FAIL', error);
       res.status(500).send({ error: 'DB connection failed', details: error });
-    }
-  });
-
-  app.get('/APIHealth', async (_req, res) => {
-    try {
-      const status = await fetchAPIStatus();
-      console.log('\nAPI Status ok ');
-      res.status(200).send(status);
-    } catch (error) {
-      console.log('\nAPI Error: ', error);
-      res.status(502).send({ error: 'Upstream API error', details: error });
     }
   });
 
@@ -60,7 +136,8 @@ export default function loadRoutes(app: express.Express) {
     }
   });
 
-  app.get('/categories', async (_req, res) => {
+  //http://localhost:5128/api/Frontend/Categories
+  app.get('/api/Frontend/Categories', async (_req, res) => {
     try {
       const result = await fetchCategories();
       if (!result || result.length === 0) {
@@ -75,4 +152,38 @@ export default function loadRoutes(app: express.Express) {
       });
     }
   });
-}
+
+  //http://localhost:5128/api/Frontend/Categories
+  app.get('/api/Frontend/ItemBase', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(200).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+
+  //http://localhost:5128/api/Frontend/Categories
+  app.get('/api/Frontend/ItemDetail', async (_req, res) => {
+    try {
+      const result = await fetchCategories();
+      if (!result || result.length === 0) {
+        return res.status(200).send([]);
+      }
+      res.status(200).send(result);
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.message || error);
+      res.status(500).send({
+        message: 'Failed to retrieve categories due to a server error.',
+        details: error.message || error,
+      });
+    }
+  });
+*/

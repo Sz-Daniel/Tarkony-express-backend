@@ -1,30 +1,64 @@
-import axios from "axios";
-import {
-  APIStatus,
-  categoriesQuery,
-  itemDataQuery,
-  itemPriceQuery,
-} from "./queries";
-import { buildMemoryStorage, setupCache } from "axios-cache-interceptor";
+import axios from 'axios';
+import { categoriesQuery, itemDataQuery } from './queries';
+import { buildMemoryStorage, setupCache } from 'axios-cache-interceptor';
 
-//Config
-const axiosTarkovDev = axios.create({
-  baseURL: "https://api.tarkov.dev/graphql",
-  timeout: 1000,
-  headers: { "Content-Type": "application/json" },
+//Config the Axios for OriginAPI fetching
+//Timeout: 1s, JSON
+const axiosOriginAPI = axios.create({
+  baseURL: 'https://api.tarkov.dev/graphql',
+  //timeout: 1000,
+  headers: { 'Content-Type': 'application/json' },
 });
 
-setupCache(axiosTarkovDev, {
-  location: "server",
+setupCache(axiosOriginAPI, {
+  location: 'server',
   storage: buildMemoryStorage(),
   debug: ({ id, msg, data }) => {
     console.log(`[axios-cache] id=${id} msg=${msg}`, data);
   },
   ttl: 30 * 24 * 60 * 60 * 1000,
 });
+
+//categories OriginAPI Fetch
+export async function fetchCategories() {
+  try {
+    const response = await axiosOriginAPI.post('', {
+      query: categoriesQuery.query,
+    });
+
+    if (!response.data || !response.data.data) {
+      throw new Error(
+        'Invalid response structure received from fetchCategories.',
+      );
+    }
+    return response.data.data.itemCategories;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//Items OriginAPI Fetch
+export async function fetchItems(query: string) {
+  try {
+    const response = await axiosOriginAPI.post('', {
+      query: itemDataQuery.query,
+      cache: {
+        ttl: 5 * 60 * 1000,
+      },
+    });
+    if (!response.data || !response.data.data) {
+      throw new Error('Invalid response structure received from fetchItems.');
+    }
+    return response.data.data.itemCategories;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/* REWORK
 //API Status
 export async function fetchAPIStatus() {
-  const response = await axiosTarkovDev.post("", {
+  const response = await axiosTarkovDev.post('', {
     query: APIStatus,
     cache: {
       ttl: 0,
@@ -37,29 +71,30 @@ export async function fetchAPIStatus() {
 //categories
 export async function fetchCategories() {
   try {
-    const response = await axiosTarkovDev.post("", {
+    const response = await axiosTarkovDev.post('', {
       query: categoriesQuery.query,
     });
 
     if (!response.data || !response.data.data) {
-      throw new Error("Invalid response structure received from API.");
+      throw new Error('Invalid response structure received from API.');
     }
     return response.data.data.itemCategories;
   } catch (error) {
     throw error;
   }
 }
+
 //Items fetch
 export async function fetchItems(query: string) {
   try {
-    const response = await axiosTarkovDev.post("", {
+    const response = await axiosTarkovDev.post('', {
       query: itemDataQuery.query,
       cache: {
         ttl: 5 * 60 * 1000,
       },
     });
     if (!response.data || !response.data.data) {
-      throw new Error("Invalid response structure received from API.");
+      throw new Error('Invalid response structure received from API.');
     }
     return response.data.data.itemCategories;
   } catch (error) {
@@ -74,3 +109,4 @@ export async function fetchItemsData() {
 export async function fetchItemsPrice() {
   return fetchItems(itemPriceQuery.query);
 }
+*/

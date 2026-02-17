@@ -5,8 +5,8 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc --watch",
-    "dev": "tsx --watch --env-file .env.example src/index.ts",
-    "start": "node --env-file .env.example dist/src/index.js",
+    "dev": "tsx --watch --env-file .env src/index.ts",
+    "start": "node --env-file .env dist/src/index.js",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [],
@@ -18,10 +18,12 @@
     "axios-cache-interceptor": "^1.8.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "graphql": "^16.12.0",
     "mongodb": "^7.0.0",
-    "node-cron": "^4.2.1"
+    "node-cron": "^4.2.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "6.1.0",
